@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductService {
 
     ProductPage query(Integer cid, Integer bid, String keyWord, Integer page);
+    Product queryByPid(Integer pid);
 }

@@ -50,4 +50,10 @@ public class productServiceImpl implements ProductService {
         productPage.setProducts(products);
         return productPage;
     }
+
+    @Override
+    public Product queryByPid(Integer pid) {
+        System.out.println("pid = [" + pid + "]");
+        return productMapper.queryByPid(pid);
+    }
 }

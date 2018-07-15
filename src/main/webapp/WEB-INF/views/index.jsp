@@ -69,7 +69,7 @@
                                         <span class="price">￥${product.price}</span>
                                         <h3>${product.name}</h3>
                                         <p>${product.description}</p>
-                                        <p><a href="single.jsp" class="btn btn-primary btn-outline btn-lg">马上购买</a>
+                                        <p><a href="product/${product.pid}" class="btn btn-primary btn-outline btn-lg">马上购买</a>
                                         </p>
                                     </div>
                                 </div>
@@ -137,8 +137,7 @@
                             <div class="product-grid" style="background-image:url(${product.imgUrl})">
                                 <div class="inner">
                                     <p>
-                                        <a href="single" class="icon"><i class="icon-shopping-cart"></i></a>
-                                        <a href="single" class="icon"><i class="icon-eye"></i></a>
+                                        <a href="product/${product.pid}" class="icon"><i class="icon-shopping-cart"></i></a>
                                     </p>
                                 </div>
                             </div>

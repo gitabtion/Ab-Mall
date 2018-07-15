@@ -29,10 +29,8 @@ public class IndexController {
     public String index(Model model){
 
         List<Nav> nav = navService.getNav();
-        System.out.println(JSON.toJSONString(nav));
         model.addAttribute("nav",nav);
         ProductPage productPage = productService.query(null,null,null,1);
-        System.out.println(JSON.toJSONString(productPage));
         model.addAttribute("list",productPage);
         return "index";
     }
@@ -40,5 +38,12 @@ public class IndexController {
     @RequestMapping("/home")
     public String hello(Model model){
         return index(model);
+    }
+
+    @RequestMapping("/single")
+    public String single(Model model){
+        List<Nav> nav = navService.getNav();
+        model.addAttribute("nav",nav);
+        return "single";
     }
 }

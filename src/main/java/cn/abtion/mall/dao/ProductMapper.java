@@ -11,4 +11,11 @@ public interface ProductMapper {
      * @return
      */
     List<Product> query(Map<String,Object> params);
+    /**
+     * 根据pid 查询商品
+     * @param pid 商品的ID
+     * @return 查询出的商品
+     */
+    Product queryByPid(Integer pid);
+    int doUpdate(Map<String,Object> param);
 }

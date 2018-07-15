@@ -18,6 +18,7 @@ public class NavServiceImpl implements NavService {
 
     @Override
     public List<Nav> getNav() {
+        System.out.println(navMapper.getNav());
         return navMapper.getNav();
     }
 }

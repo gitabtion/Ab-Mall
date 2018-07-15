@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：数据层接口的全限定名-->
+<mapper namespace="cn.abtion.mall.dao.OrderMapper">
+
+    <resultMap id="orderItemResultMap" type="orderItem">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="totalPrice" column="total_price"/>
+        <association property="address" javaType="address">
+            <id property="aid" column="aid"/>
+            <result property="name" column="name"/>
+            <result property="tel" column="tel"/>
+            <result property="addr" column="addr"/>
+
+        </association>
+
+        <collection property="products" ofType="productInOrder">
+            <id property="pid" column="pid"/>
+            <result property="name" column="product_name"/>
+            <result property="imgUrl" column="img_url"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryByMid" parameterType="int" resultMap="orderItemResultMap">
+SELECT
+  orders.create_time,
+  orders.id,
+  address.aid,
+  address.name,
+  address.tel,
+  address.addr,
+  product.img_url,
+  product.name product_name,
+  order_detail.quantity,
+  product.price,
+  product_id,
+  temp2.total_price
+FROM orders, address, order_detail, product, (SELECT
+                                                temp1.id,
+                                                SUM(quantity * price) total_price
+                                              FROM (SELECT
+                                                      orders.id,
+                                                      order_detail.quantity,
+                                                      product.price
+                                                    FROM orders, address, order_detail, product
+                                                    WHERE orders.address_id = address.aid
+                                                          AND product.pid = order_detail.product_id
+                                                          AND orders.id = order_detail.order_id
+                                                          AND member_id = 18) temp1
+                                              GROUP BY temp1.id) temp2
+WHERE orders.address_id = address.aid
+      AND product.pid = order_detail.product_id
+      AND orders.id = order_detail.order_id
+      AND temp2.id = orders.id
+      AND member_id = #{mid}
+      ORDER BY orders.create_time DESC
+    </select>
+
+    <insert id="doInsert" parameterType="map" useGeneratedKeys="true" keyProperty="orderId">
+      INSERT INTO orders(member_id, address_id) VALUES (#{mid},#{aid})
+    </insert>
+
+    <insert id="doInsertDetail" parameterType="map">
+        INSERT INTO order_detail(order_id, product_id, quantity, price)
+        VALUES
+        <foreach collection="list" item="item"  separator=",">
+            (#{item.orderId},#{item.pid},#{item.quantity},#{item.price})
+        </foreach>
+    </insert>
+
+</mapper>

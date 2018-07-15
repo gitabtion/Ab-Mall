@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：数据层接口的全限定名-->
+<mapper namespace="cn.abtion.mall.dao.MemberMapper">
+
+    <select id="query" resultType="member" parameterType="map">
+      SELECT * FROM member WHERE name = #{username} AND pass = #{password}
+    </select>
+
+</mapper>

@@ -6,7 +6,7 @@
 <!--namespace:对应数据层接口的全限定名-->
 <mapper namespace="cn.abtion.mall.dao.ProductMapper">
 
-    <resultMap id="queryResultMap" type="cn.abtion.mall.po.Product">
+    <resultMap id="productResultMap" type="cn.abtion.mall.po.Product">
         <id property="pid" column="pid"/>
         <result property="name" column="name"/>
         <result property="description" column="description"/>
@@ -18,7 +18,7 @@
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
         <association property="brand" javaType="cn.abtion.mall.po.Brand">
-            <id property="bid" column="bid" />
+            <id property="bid" column="bid"/>
             <result property="name" column="bname"/>
         </association>
 
@@ -28,24 +28,41 @@
         </association>
 
     </resultMap>
- <select id="query" resultMap="queryResultMap" parameterType="map">
-      SELECT
-      category.cid,
-      category.name as cname,
-      brand.name as bname,
-      product.*
-    FROM product,category,brand
-    where
-     <if test="cid!=null">
-         product.cid = #{cid} and
-     </if>
-     <if test="bid!=null">
-         product.bid = #{bid} and
-     </if>
-     <if test="keyWord!=null">
-         product.name like CONCAT('%',#{keyWord},'%') and
-     </if>
-    category.cid =product.cid and
-     brand.bid = product.bid
- </select>
+    <select id="query" resultMap="productResultMap" parameterType="map">
+        SELECT
+        category.cid,
+        category.name as cname,
+        brand.name as bname,
+        product.*
+        FROM product,category,brand
+        where
+        <if test="cid!=null">
+            product.cid = #{cid} and
+        </if>
+        <if test="bid!=null">
+            product.bid = #{bid} and
+        </if>
+        <if test="keyWord!=null">
+            product.name like CONCAT('%',#{keyWord},'%') and
+        </if>
+        category.cid =product.cid and
+        brand.bid = product.bid
+    </select>
+
+    <select id="queryByPid" parameterType="int" resultMap="productResultMap">
+        SELECT
+          category.cid,
+          category.name cname,
+          brand.bid,
+          brand.name bname,
+          product.*
+        FROM product,category,brand
+        WHERE category.cid = product.cid
+              AND brand.bid = product.bid
+              AND pid = #{pid}
+    </select>
+
+    <update id="doUpdate" parameterType="map">
+      UPDATE product SET sales_volume = sales_volume + #{quantity} , inventory = inventory - #{quantity} WHERE pid = #{pid}
+    </update>
 </mapper>

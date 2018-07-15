@@ -57,50 +57,6 @@
 
 <div id="page">
     <%@include file="_nav.jsp" %>
-    <%--<nav class="fh5co-nav" role="navigation">--%>
-    <%--<div class="container">--%>
-    <%--<div class="row">--%>
-    <%--<div class="col-md-3 col-xs-2">--%>
-    <%--<div id="fh5co-logo"><a href="index.jsp">Shop.</a></div>--%>
-    <%--</div>--%>
-    <%--<div class="col-md-6 col-xs-6 text-center menu-1">--%>
-    <%--<ul>--%>
-    <%--<li class="has-dropdown">--%>
-    <%--<a href="product.jsp">Shop</a>--%>
-    <%--<ul class="dropdown">--%>
-    <%--<li><a href="single.jsp">Single Shop</a></li>--%>
-    <%--</ul>--%>
-    <%--</li>--%>
-    <%--<li><a href="about.jsp">About</a></li>--%>
-    <%--<li class="has-dropdown">--%>
-    <%--<a href="services.jsp">Services</a>--%>
-    <%--<ul class="dropdown">--%>
-    <%--<li><a href="#">Web Design</a></li>--%>
-    <%--<li><a href="#">eCommerce</a></li>--%>
-    <%--<li><a href="#">Branding</a></li>--%>
-    <%--<li><a href="#">API</a></li>--%>
-    <%--</ul>--%>
-    <%--</li>--%>
-    <%--<li><a href="contact.jsp">Contact</a></li>--%>
-    <%--</ul>--%>
-    <%--</div>--%>
-    <%--<div class="col-md-3 col-xs-4 text-right hidden-xs menu-2">--%>
-    <%--<ul>--%>
-    <%--<li class="search">--%>
-    <%--<div class="input-group">--%>
-    <%--<input type="text" placeholder="Search..">--%>
-    <%--<span class="input-group-btn">--%>
-    <%--<button class="btn btn-primary" type="button"><i class="icon-search"></i></button>--%>
-    <%--</span>--%>
-    <%--</div>--%>
-    <%--</li>--%>
-    <%--<li class="shopping-cart"><a href="#" class="cart"><span><small>0</small><i class="icon-shopping-cart"></i></span></a></li>--%>
-    <%--</ul>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%----%>
-    <%--</div>--%>
-    <%--</nav>--%>
 
     <header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner"
             style="background-image:url(images/img_bg_2.jpg);">
@@ -137,13 +93,13 @@
                             <div class="product-grid" style="background-image:url(${product.imgUrl})">
                                 <div class="inner">
                                     <p>
-                                        <a href="single.jsp" class="icon"><i class="icon-shopping-cart"></i></a>
-                                        <a href="single.jsp" class="icon"><i class="icon-eye"></i></a>
+                                        <a href="product/${product.pid}" class="icon"><i class="icon-shopping-cart"></i></a>
+                                        <%--<a href="single" class="icon"><i class="icon-eye"></i></a>--%>
                                     </p>
                                 </div>
                             </div>
                             <div class="desc">
-                                <h3><a href="single.jsp">${product.name}</a></h3>
+                                <h3><a href="product/${product.pid}">${product.name}</a></h3>
                                 <span class="price">￥${product.price}</span>
                             </div>
                         </div>
@@ -155,9 +111,9 @@
                 <c:forEach begin="${param.page>3?param.page-3:1}"
                            end="${requestScope.list.pageCount-param.page>3?param.page+3:requestScope.list.pageCount}"
                            var="page">
-                    <a href="products?page=${page}<c:if test="${param.cid!=null}">&cid=${param.cid}</c:if>
-                                                  <c:if test="${param.bid!=null}">&bid=${param.bid}</c:if>
-                                                  <c:if test="${param.keyWord!=null}">&keyWord=${param.keyWord}</c:if>"
+                    <a href="products?<c:if test="${param.keyWord!=null}">keyWord=${param.keyWord}&</c:if>page=${page==null?"1":page}
+                                      <c:if test="${param.cid!=null}">&cid=${param.cid}</c:if>
+                                      <c:if test="${param.bid!=null}">&bid=${param.bid}</c:if>"
                        class="btn btn-primary btn-outline<c:if test="${param.page == page}">active</c:if>"
                        style="padding: 4px 8px;">
                             ${page}
